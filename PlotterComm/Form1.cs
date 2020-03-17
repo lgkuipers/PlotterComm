@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO.Ports;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +16,10 @@ namespace PlotterComm
         public Form1()
         {
             InitializeComponent();
+
+            string[] ports = SerialPort.GetPortNames();
+
+            ivCbPorts.Items.AddRange(ports);
         }
     }
 }

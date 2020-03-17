@@ -30,6 +30,7 @@
         {
             this.ivTbCommand = new System.Windows.Forms.TextBox();
             this.ivBtnCommand = new System.Windows.Forms.Button();
+            this.ivCbPorts = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // ivTbCommand
@@ -48,11 +49,20 @@
             this.ivBtnCommand.Text = "Command";
             this.ivBtnCommand.UseVisualStyleBackColor = true;
             // 
+            // ivCbPorts
+            // 
+            this.ivCbPorts.FormattingEnabled = true;
+            this.ivCbPorts.Location = new System.Drawing.Point(44, 12);
+            this.ivCbPorts.Name = "ivCbPorts";
+            this.ivCbPorts.Size = new System.Drawing.Size(121, 24);
+            this.ivCbPorts.TabIndex = 2;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.ivCbPorts);
             this.Controls.Add(this.ivBtnCommand);
             this.Controls.Add(this.ivTbCommand);
             this.Name = "Form1";
@@ -66,6 +76,7 @@
 
         private System.Windows.Forms.TextBox ivTbCommand;
         private System.Windows.Forms.Button ivBtnCommand;
+        private System.Windows.Forms.ComboBox ivCbPorts;
     }
 }
 
