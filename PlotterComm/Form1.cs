@@ -13,6 +13,10 @@ namespace PlotterComm
 {
     public partial class Form1 : Form
     {
+        public delegate void AddDataDelegate(String myString);
+        public AddDataDelegate myDelegate;
+
+        SerialPort ivSerialPort = new SerialPort();
         public Form1()
         {
             InitializeComponent();
@@ -20,30 +24,82 @@ namespace PlotterComm
             string[] ports = SerialPort.GetPortNames();
 
             ivCbPorts.Items.AddRange(ports);
+            ivCbPorts.Items.Add("test");
+
+            this.myDelegate = new AddDataDelegate(AddDataMethod);
+
+            ivSerialPort.DataReceived += new SerialDataReceivedEventHandler(mySerialPort_DataReceived);
+        }
+        public void AddDataMethod(String myString)
+        {
+            textBox1.AppendText(myString);
         }
 
+        private void mySerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
+            SerialPort sp = (SerialPort)sender;
+            string indata = sp.ReadExisting();
+
+            textBox1.Invoke(this.myDelegate, new Object[] { indata });
+        }
         private void ivBtnCommand_Click(object sender, EventArgs e)
         {
-            var _serialPort = new SerialPort();
+            try
+            {
+                ivSerialPort.Write(ivTbCommand.Text + "\r\n");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
 
-            // Allow the user to set the appropriate properties.
-            _serialPort.PortName = ivCbPorts.SelectedText;
-            _serialPort.BaudRate = 115200;
-            _serialPort.Parity = Parity.None;
-            _serialPort.DataBits = 8;
-            _serialPort.StopBits = StopBits.One;
-            _serialPort.Handshake = Handshake.None;
+        private void ivBtnConnect_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Allow the user to set the appropriate properties.
+                ivSerialPort.PortName = (string)ivCbPorts.SelectedItem;
+                ivSerialPort.BaudRate = 115200;
+                ivSerialPort.Parity = Parity.None;
+                ivSerialPort.DataBits = 8;
+                ivSerialPort.StopBits = StopBits.One;
+                ivSerialPort.Handshake = Handshake.None;
 
-            // Set the read/write timeouts
-            _serialPort.ReadTimeout = 500;
-            _serialPort.WriteTimeout = 500;
+                // Set the read/write timeouts
+                ivSerialPort.ReadTimeout = 500;
+                ivSerialPort.WriteTimeout = 500;
 
-            _serialPort.Open();
+                ivSerialPort.Open();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
 
-            _serialPort.Write(ivTbCommand.Text + "\r\n");
+        private void ivBtnDisconnect_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ivSerialPort.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
 
-            _serialPort.Close();
-
+        private void ivBtnCAN_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ivSerialPort.Write(((char)0x18).ToString());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }
