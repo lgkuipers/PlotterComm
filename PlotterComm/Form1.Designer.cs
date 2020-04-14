@@ -35,6 +35,7 @@
             this.ivBtnDisconnect = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.ivBtnCAN = new System.Windows.Forms.Button();
+            this.ivBtnCnc = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // ivTbCommand
@@ -100,11 +101,22 @@
             this.ivBtnCAN.UseVisualStyleBackColor = true;
             this.ivBtnCAN.Click += new System.EventHandler(this.ivBtnCAN_Click);
             // 
+            // ivBtnCnc
+            // 
+            this.ivBtnCnc.Location = new System.Drawing.Point(544, 291);
+            this.ivBtnCnc.Name = "ivBtnCnc";
+            this.ivBtnCnc.Size = new System.Drawing.Size(75, 23);
+            this.ivBtnCnc.TabIndex = 7;
+            this.ivBtnCnc.Text = "CNC";
+            this.ivBtnCnc.UseVisualStyleBackColor = true;
+            this.ivBtnCnc.Click += new System.EventHandler(this.ivBtnCnc_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.ivBtnCnc);
             this.Controls.Add(this.ivBtnCAN);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.ivBtnDisconnect);
@@ -128,6 +140,7 @@
         private System.Windows.Forms.Button ivBtnDisconnect;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button ivBtnCAN;
+        private System.Windows.Forms.Button ivBtnCnc;
     }
 }
 

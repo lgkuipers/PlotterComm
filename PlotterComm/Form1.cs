@@ -101,5 +101,22 @@ namespace PlotterComm
                 MessageBox.Show(ex.Message);
             }
         }
+
+        private void ivBtnCnc_Click(object sender, EventArgs e)
+        {
+            string[] lines = System.IO.File.ReadAllLines(@"..\..\comm.cnc");
+            foreach(var l in lines)
+            {
+                try
+                {
+                    ivSerialPort.Write(l);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                    break;
+                }
+            }
+        }
     }
 }
