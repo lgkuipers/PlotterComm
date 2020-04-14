@@ -109,7 +109,7 @@ namespace PlotterComm
             {
                 try
                 {
-                    ivSerialPort.Write(l);
+                    ivSerialPort.Write(l + "\r\n");
                 }
                 catch (Exception ex)
                 {
