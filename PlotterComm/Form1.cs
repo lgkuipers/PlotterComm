@@ -14,8 +14,9 @@ namespace PlotterComm
 {
     public partial class Form1 : Form
     {
-        var mre = new AutoResetEvent(false);
-        var responseTimeout = TimeSpan.FromSeconds(10);
+        AutoResetEvent mre = new AutoResetEvent(false);
+        TimeSpan responseTimeout = TimeSpan.FromSeconds(10);
+
         public delegate void AddDataDelegate(String myString);
         public AddDataDelegate myDelegate;
 
@@ -55,6 +56,9 @@ namespace PlotterComm
             try
             {
                 ivSerialPort.Write(ivTbCommand.Text + "\r\n");
+                if (!mre.WaitOne(responseTimeout))
+                {
+                }
             }
             catch (Exception ex)
             {
@@ -103,6 +107,9 @@ namespace PlotterComm
             try
             {
                 ivSerialPort.Write(((char)0x18).ToString());
+                if (!mre.WaitOne(responseTimeout))
+                {
+                }
             }
             catch (Exception ex)
             {
@@ -110,10 +117,10 @@ namespace PlotterComm
             }
         }
 
-        private void ivBtnCnc_Click(object sender, EventArgs e)
+        private void DoWork()
         {
             string[] lines = System.IO.File.ReadAllLines(@"..\..\comm.cnc");
-            foreach(var l in lines)
+            foreach (var l in lines)
             {
                 try
                 {
@@ -128,6 +135,12 @@ namespace PlotterComm
                     break;
                 }
             }
+        }
+
+        private void ivBtnCnc_Click(object sender, EventArgs e)
+        {
+            Thread thr = new Thread(DoWork);
+            thr.Start();
         }
     }
 }
