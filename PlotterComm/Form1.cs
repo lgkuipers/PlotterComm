@@ -6,6 +6,7 @@ using System.Drawing;
 using System.IO.Ports;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -13,6 +14,8 @@ namespace PlotterComm
 {
     public partial class Form1 : Form
     {
+        var mre = new AutoResetEvent(false);
+        var responseTimeout = TimeSpan.FromSeconds(10);
         public delegate void AddDataDelegate(String myString);
         public AddDataDelegate myDelegate;
 
@@ -41,6 +44,11 @@ namespace PlotterComm
             string indata = sp.ReadExisting();
 
             textBox1.Invoke(this.myDelegate, new Object[] { indata });
+
+            if (indata.Contains("OK"))
+            {
+                mre.Set(); //allow loop to continue
+            }
         }
         private void ivBtnCommand_Click(object sender, EventArgs e)
         {
@@ -110,6 +118,9 @@ namespace PlotterComm
                 try
                 {
                     ivSerialPort.Write(l + "\r\n");
+                    if (!mre.WaitOne(responseTimeout))
+                    {
+                    }
                 }
                 catch (Exception ex)
                 {
