@@ -53,17 +53,9 @@ namespace PlotterComm
         }
         private void ivBtnCommand_Click(object sender, EventArgs e)
         {
-            try
-            {
-                ivSerialPort.Write(ivTbCommand.Text + "\r\n");
-                if (!mre.WaitOne(responseTimeout))
-                {
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            string cmd = ivTbCommand.Text;
+            Thread thr = new Thread(DoWork2);
+            thr.Start(cmd);
         }
 
         private void ivBtnConnect_Click(object sender, EventArgs e)
@@ -134,6 +126,13 @@ namespace PlotterComm
                     MessageBox.Show(ex.Message);
                     break;
                 }
+            }
+        }
+        private void DoWork2(object cmd)
+        {
+            ivSerialPort.Write((string)cmd + "\r\n");
+            if (!mre.WaitOne(responseTimeout))
+            {
             }
         }
 
