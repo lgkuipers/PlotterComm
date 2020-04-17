@@ -15,7 +15,7 @@ namespace PlotterComm
     public partial class Form1 : Form
     {
         AutoResetEvent mre = new AutoResetEvent(false);
-        TimeSpan responseTimeout = TimeSpan.FromSeconds(10);
+        TimeSpan responseTimeout = TimeSpan.FromSeconds(60);
 
         public delegate void AddDataDelegate(String myString);
         public AddDataDelegate myDelegate;
@@ -116,6 +116,7 @@ namespace PlotterComm
             {
                 try
                 {
+                    mre = new AutoResetEvent(false);
                     ivSerialPort.Write(l + "\r\n");
                     if (!mre.WaitOne(responseTimeout))
                     {
